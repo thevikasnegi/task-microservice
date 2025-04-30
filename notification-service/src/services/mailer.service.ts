@@ -28,7 +28,7 @@ export const sendEmail = async ({ to, subject, body }: IEmailOptions): Promise<v
 
   try {
     const info = await transporter.sendMail({
-      from: `"Task Notifier" <${NODE_MAILER_USER}>`,
+      from: NODE_MAILER_USER,
       to,
       subject,
       text: body,
