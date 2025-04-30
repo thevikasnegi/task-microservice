@@ -1,0 +1,65 @@
+Description:
+The system consists of two microservices:
+
+Task Service – Manages tasks (create, update, delete).
+
+Notification Service – Sends notifications (via console log or email) whenever a task is created or updated.
+
+These two services communicate with each other using RabbitMQ, and task updates are broadcast across services.
+
+Features:
+Task Service:
+
+Create tasks with title and description.
+
+Update task status (e.g., from 'pending' to 'completed').
+
+Delete tasks.
+
+Notification Service:
+
+Sends a notification (logs or email) when a task is created or updated in the Task Service.
+
+RabbitMQ Integration:
+
+Task Service sends a message to the Notification Service whenever a task is created or updated.
+
+Notification Service listens to the RabbitMQ queue for task events and responds accordingly.
+
+Steps to Implement:
+Set up RabbitMQ:
+
+Install RabbitMQ on your system (or use a cloud RabbitMQ service).
+
+Configure two queues: task-queue (for task creation and updates) and notification-queue (for the notifications).
+
+Create Microservices:
+
+Task Service:
+
+Create a simple REST API with endpoints like /tasks, /tasks/{id}, etc.
+
+Use amqplib (RabbitMQ client for Node.js) to publish task-related events to the RabbitMQ queue (task-queue).
+
+Notification Service:
+
+Set up a service that listens to messages from the task-queue queue.
+
+On receiving task creation or update messages, it logs or sends notifications (you can use nodemailer for email notifications).
+
+Cross-Service Communication:
+
+Use RabbitMQ to enable cross-service communication. When the Task Service creates or updates a task, it sends a message to the RabbitMQ queue.
+
+The Notification Service listens to this queue and reacts to the events.
+
+Update Across Services:
+
+When a task is updated in the Task Service, a message is sent to RabbitMQ, and the Notification Service updates the notification log (or sends an email) with the task status.
+
+Technologies Used:
+Node.js (Express)
+
+RabbitMQ (for message queueing)
+
+amqplib (RabbitMQ client for Node.js)
